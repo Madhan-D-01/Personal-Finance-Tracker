@@ -1,0 +1,44 @@
+<div class="card auth-card">
+  <div class="card-body">
+    <h3 class="card-title">Sign Up</h3>
+    <div class="alert alert-danger" ng-show="error">{{ error }}</div>
+    <form name="signupForm" ng-submit="signup()" novalidate>
+      <div class="mb-3">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-control" name="firstName" ng-model="credentials.firstName" ng-pattern="/^[a-zA-Z\s-]+$/" ng-minlength="2" required>
+        <div class="text-danger" ng-show="signupForm.firstName.$dirty && signupForm.firstName.$invalid">
+          <span ng-show="signupForm.firstName.$error.required">First name is required.</span>
+          <span ng-show="signupForm.firstName.$error.pattern">First name can only contain letters, spaces, or hyphens.</span>
+          <span ng-show="signupForm.firstName.$error.minlength">First name must be at least 2 characters long.</span>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-control" name="lastName" ng-model="credentials.lastName" ng-pattern="/^[a-zA-Z\s-]+$/" ng-minlength="1" required>
+        <div class="text-danger" ng-show="signupForm.lastName.$dirty && signupForm.lastName.$invalid">
+          <span ng-show="signupForm.lastName.$error.required">Last name is required.</span>
+          <span ng-show="signupForm.lastName.$error.pattern">Last name can only contain letters, spaces, or hyphens.</span>
+          <span ng-show="signupForm.lastName.$error.minlength">Last name must be at least 1 character long.</span>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" ng-model="credentials.email" required>
+        <div class="text-danger" ng-show="signupForm.email.$dirty && signupForm.email.$invalid">
+          <span ng-show="signupForm.email.$error.required">Email is required.</span>
+          <span ng-show="signupForm.email.$error.email">Please enter a valid email address.</span>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" ng-model="credentials.password" ng-minlength="6" required>
+        <div class="text-danger" ng-show="signupForm.password.$dirty && signupForm.password.$invalid">
+          <span ng-show="signupForm.password.$error.required">Password is required.</span>
+          <span ng-show="signupForm.password.$error.minlength">Password must be at least 6 characters long.</span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" ng-disabled="signupForm.$invalid">Sign Up</button>
+      <a href="#!/" class="btn btn-link">Login</a>
+    </form>
+  </div>
+</div>

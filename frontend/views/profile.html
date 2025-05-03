@@ -1,0 +1,56 @@
+<div class="card profile-card">
+  <div class="card-body">
+    <h3 class="card-title">Profile</h3>
+    <div class="alert alert-success" ng-show="message">{{ message }}</div>
+    <div class="alert alert-danger" ng-show="error">{{ error }}</div>
+
+    <!-- Read-only view when not editing -->
+    <div ng-show="!isEditing">
+      <div ng-show="profile.firstName || profile.lastName">
+        <h5 class="welcome-message">Welcome, {{ profile.firstName }} {{ profile.lastName }}!</h5>
+        <p class="email-display">Email: {{ profile.email }}</p>
+      </div>
+      <button class="btn btn-primary btn-edit" ng-click="startEditing()">Edit Profile</button>
+    </div>
+
+    <!-- Editable form when editing -->
+    <div ng-show="isEditing">
+      <form name="profileForm" novalidate>
+        <div class="mb-3">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-control" name="firstName" ng-model="profile.firstName" ng-pattern="/^[a-zA-Z\s-]+$/" ng-minlength="2" required>
+          <div class="text-danger" ng-show="profileForm.firstName.$dirty && profileForm.firstName.$invalid">
+            <span ng-show="profileForm.firstName.$error.required">First name is required.</span>
+            <span ng-show="profileForm.firstName.$error.pattern">First name can only contain letters, spaces, or hyphens.</span>
+            <span ng-show="profileForm.firstName.$error.minlength">First name must be at least 2 characters long.</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-control" name="lastName" ng-model="profile.lastName" ng-pattern="/^[a-zA-Z\s-]+$/" ng-minlength="1" required>
+          <div class="text-danger" ng-show="profileForm.lastName.$dirty && profileForm.lastName.$invalid">
+            <span ng-show="profileForm.lastName.$error.required">Last name is required.</span>
+            <span ng-show="profileForm.lastName.$error.pattern">Last name can only contain letters, spaces, or hyphens.</span>
+            <span ng-show="profileForm.lastName.$error.minlength">Last name must be at least 1 character long.</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">New Email</label>
+          <input type="email" class="form-control" name="email" ng-model="profile.email">
+          <div class="text-danger" ng-show="profileForm.email.$dirty && profileForm.email.$invalid">
+            <span ng-show="profileForm.email.$error.email">Please enter a valid email address.</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">New Password</label>
+          <input type="password" class="form-control" name="password" ng-model="profile.password" ng-minlength="6">
+          <div class="text-danger" ng-show="profileForm.password.$dirty && profileForm.password.$invalid">
+            <span ng-show="profileForm.password.$error.minlength">Password must be at least 6 characters long.</span>
+          </div>
+        </div>
+        <button class="btn btn-save" ng-click="updateProfile()" ng-disabled="profileForm.$invalid">Save</button>
+        <button class="btn btn-cancel" ng-click="cancelEditing()">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>

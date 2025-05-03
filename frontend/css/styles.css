@@ -1,0 +1,438 @@
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", "Helvetica", "Arial", sans-serif;
+  background: linear-gradient(135deg, #ecf0f1 0%, #dfe6e9 100%);
+  color: #2c3e50;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Navigation Bar (Assumed in index.html) */
+.navbar {
+  background: linear-gradient(90deg, #1abc9c, #16a085);
+  padding: 15px 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #f0f0f0;
+}
+
+.navbar-nav .nav-link {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-left: 20px;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ff6f61;
+}
+
+/* Container for centering content */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 15px;
+}
+
+/* Card Styling (Used across all pages) */
+.card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  margin-bottom: 30px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+h5 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+/* Form Elements */
+.form-label {
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #dfe6e9;
+  padding: 12px;
+  font-size: 1rem;
+  width: 100%;
+  background: #f9fbfc;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #1abc9c;
+  box-shadow: 0 0 8px rgba(26, 188, 156, 0.2);
+  outline: none;
+}
+
+.form-control.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.2);
+}
+
+.text-danger {
+  font-size: 0.85rem;
+  color: #e74c3c;
+  margin-top: 5px;
+}
+
+/* Alerts (Success and Error Messages) */
+.alert {
+  font-size: 0.9rem;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.alert-success {
+  background: #dff0d8;
+  color: #2ecc71;
+}
+
+.alert-danger {
+  background: #f9e1e1;
+  color: #e74c3c;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #1abc9c;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #16a085;
+}
+
+.btn-success {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background-color: #27ae60;
+}
+
+.btn-secondary {
+  background-color: #ff6f61;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #e65b50;
+}
+
+.btn-warning {
+  background-color: #f1c40f;
+  color: #2c3e50;
+}
+
+.btn-warning:hover {
+  background-color: #d4ac0d;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.btn-link {
+  color: #1abc9c;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  color: #16a085;
+  text-decoration: underline;
+}
+
+.btn-sm {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+}
+
+/* Page-Specific Styles */
+
+/* Signup and Login Pages */
+.auth-card {
+  max-width: 450px;
+  margin: 50px auto;
+}
+
+.auth-card .btn-primary {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.auth-card .btn-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* Profile Page */
+.profile-card {
+  max-width: 550px;
+  margin: 50px auto;
+}
+
+.profile-card .welcome-message {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.profile-card .email-display {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin-bottom: 25px;
+}
+
+.profile-card .btn-edit {
+  background-color: #1abc9c;
+  color: #fff;
+}
+
+.profile-card .btn-edit:hover {
+  background-color: #16a085;
+}
+
+.profile-card .btn-save {
+  background-color: #2ecc71;
+  margin-right: 15px;
+}
+
+.profile-card .btn-save:hover {
+  background-color: #27ae60;
+}
+
+.profile-card .btn-cancel {
+  background-color: #ff6f61;
+}
+
+.profile-card .btn-cancel:hover {
+  background-color: #e65b50;
+}
+
+/* Dashboard Page */
+.dashboard-card {
+  margin: 20px 0;
+}
+
+.dashboard-card .card-body {
+  padding: 20px;
+}
+
+.dashboard-card .card-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.dashboard-card .card-text {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.dashboard-card .card-text.income {
+  color: #2ecc71;
+}
+
+.dashboard-card .card-text.expense {
+  color: #e74c3c;
+}
+
+.dashboard-card .card-text.balance {
+  color: #1abc9c;
+}
+
+/* Transactions Page */
+.transactions-card {
+  max-width: 1000px;
+  margin: 50px auto;
+}
+
+.transactions-card .row {
+  margin-bottom: 30px;
+}
+
+.transactions-card .col-md-6 {
+  margin-bottom: 20px;
+}
+
+.transactions-card .btn-primary {
+  margin-top: 15px;
+}
+
+/* Table Styling (Used in Dashboard and Transactions) */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.table th,
+.table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.table th {
+  background: #1abc9c;
+  color: #fff;
+  font-weight: 500;
+}
+
+.table td {
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9fbfc;
+}
+
+.table tbody tr:hover {
+  background-color: #e0f7fa;
+}
+
+.table .btn {
+  margin-right: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .container {
+    padding: 20px 10px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .card-title {
+    font-size: 1.4rem;
+  }
+
+  .auth-card,
+  .profile-card,
+  .transactions-card {
+    margin: 30px 10px;
+  }
+
+  .dashboard-card {
+    margin: 15px 0;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .profile-card .btn-save,
+  .profile-card .btn-cancel,
+  .table .btn {
+    margin-right: 0;
+  }
+
+  .transactions-card .col-md-6 {
+    margin-bottom: 15px;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+
+  .navbar-nav .nav-link {
+    margin-left: 10px;
+    font-size: 0.9rem;
+  }
+}

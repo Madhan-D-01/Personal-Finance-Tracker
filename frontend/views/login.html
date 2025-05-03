@@ -1,0 +1,26 @@
+<div class="card auth-card">
+  <div class="card-body">
+    <h3 class="card-title">Login</h3>
+    <div class="alert alert-danger" ng-show="error">{{ error }}</div>
+    <form name="loginForm" ng-submit="login()" novalidate>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" ng-model="credentials.email" required>
+        <div class="text-danger" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
+          <span ng-show="loginForm.email.$error.required">Email is required.</span>
+          <span ng-show="loginForm.email.$error.email">Please enter a valid email address.</span>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" ng-model="credentials.password" ng-minlength="6" required>
+        <div class="text-danger" ng-show="loginForm.password.$dirty && loginForm.password.$invalid">
+          <span ng-show="loginForm.password.$error.required">Password is required.</span>
+          <span ng-show="loginForm.password.$error.minlength">Password must be at least 6 characters long.</span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid">Login</button>
+      <a href="#!/signup" class="btn btn-link">Sign Up</a>
+    </form>
+  </div>
+</div>
