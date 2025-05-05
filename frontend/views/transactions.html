@@ -6,109 +6,113 @@
     return cell !== '' && cell != null;
   }
   function loadFileData(filename) {
-  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
       try {
-          var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-          var firstSheetName = workbook.SheetNames[0];
-          var worksheet = workbook.Sheets[firstSheetName];
+        var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+        var firstSheetName = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[firstSheetName];
 
-          // Convert sheet to JSON to filter blank rows
-          var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-          // Filter out blank rows (rows where all cells are empty, null, or undefined)
-          var filteredData = jsonData.filter(row => row.some(filledCell));
+        // Convert sheet to JSON to filter blank rows
+        var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+        // Filter out blank rows (rows where all cells are empty, null, or undefined)
+        var filteredData = jsonData.filter(row => row.some(filledCell));
 
-          // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-          var headerRowIndex = filteredData.findIndex((row, index) =>
-            row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-          );
-          // Fallback
-          if (headerRowIndex === -1 || headerRowIndex > 25) {
-            headerRowIndex = 0;
-          }
+        // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+        var headerRowIndex = filteredData.findIndex((row, index) =>
+          row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+        );
+        // Fallback
+        if (headerRowIndex === -1 || headerRowIndex > 25) {
+          headerRowIndex = 0;
+        }
 
-          // Convert filtered JSON back to CSV
-          var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-          csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-          return csv;
+        // Convert filtered JSON back to CSV
+        var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+        csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+        return csv;
       } catch (e) {
-          console.error(e);
-          return "";
+        console.error(e);
+        return "";
       }
-  }
-  return gk_fileData[filename] || "";
+    }
+    return gk_fileData[filename] || "";
   }
 </script>
 <div class="card transactions-card">
-<div class="card-body">
-<h3 class="card-title">Transaction Tracker</h3>
-<div class="row">
-<div class="col-md-6">
-  <h5>Add/Edit Transaction</h5>
-  <div class="mb-3">
-    <label class="form-label">Amount</label>
-    <input type="number" class="form-control" ng-model="newTransaction.amount" required>
+  <div class="card-body">
+    <h3 class="card-title">Transaction Tracker</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Add/Edit Transaction</h5>
+        <div class="mb-3">
+          <label class="form-label">Amount</label>
+          <div class="input-group">
+            <span class="input-group-text">₹</span>
+            <input type="number" class="form-control" ng-model="newTransaction.amount" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Type</label>
+          <select class="form-control" ng-model="newTransaction.type" required>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Category</label>
+          <select class="form-control" ng-model="newTransaction.category" required>
+            <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" ng-click="newTransaction._id ? updateTransaction() : addTransaction()">
+          {{ newTransaction._id ? 'Update' : 'Add' }} Transaction
+        </button>
+      </div>
+      <div class="col-md-6">
+        <h5>Filter Transactions</h5>
+        <div class="mb-3">
+          <label class="form-label">Type</label>
+          <select class="form-control" ng-model="filters.type" ng-change="filterTransactions()">
+            <option value="">All</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Start Date</label>
+          <input type="date" class="form-control" ng-model="filters.startDate" ng-change="filterTransactions()">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">End Date</label>
+          <input type="date" class="form-control" ng-model="filters.endDate" ng-change="filterTransactions()">
+        </div>
+      </div>
+    </div>
+    <h5 class="mt-4">Transaction History</h5>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Amount</th>
+          <th>Type</th>
+          <th>Category</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="transaction in transactions">
+          <td>₹{{ transaction.amount | number:2 }}</td>
+          <td>{{ transaction.type }}</td>
+          <td>{{ transaction.category }}</td>
+          <td>{{ transaction.date | date:'mediumDate' }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning" ng-click="editTransaction(transaction)">Edit</button>
+            <button class="btn btn-sm btn-danger" ng-click="deleteTransaction(transaction._id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div class="mb-3">
-    <label class="form-label">Type</label>
-    <select class="form-control" ng-model="newTransaction.type" required>
-      <option value="income">Income</option>
-      <option value="expense">Expense</option>
-    </select>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Category</label>
-    <select class="form-control" ng-model="newTransaction.category" required>
-      <option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
-    </select>
-  </div>
-  <button class="btn btn-primary" ng-click="newTransaction._id ? updateTransaction() : addTransaction()">
-    {{ newTransaction._id ? 'Update' : 'Add' }} Transaction
-  </button>
-</div>
-<div class="col-md-6">
-  <h5>Filter Transactions</h5>
-  <div class="mb-3">
-    <label class="form-label">Type</label>
-    <select class="form-control" ng-model="filters.type" ng-change="filterTransactions()">
-      <option value="">All</option>
-      <option value="income">Income</option>
-      <option value="expense">Expense</option>
-    </select>
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Start Date</label>
-    <input type="date" class="form-control" ng-model="filters.startDate" ng-change="filterTransactions()">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">End Date</label>
-    <input type="date" class="form-control" ng-model="filters.endDate" ng-change="filterTransactions()">
-  </div>
-</div>
-</div>
-<h5 class="mt-4">Transaction History</h5>
-<table class="table table-striped">
-<thead>
-  <tr>
-    <th>Amount</th>
-    <th>Type</th>
-    <th>Category</th>
-    <th>Date</th>
-    <th>Actions</th>
-  </tr>
-</thead>
-<tbody>
-  <tr ng-repeat="transaction in transactions">
-    <td>{{ transaction.amount | number:2 }}</td>
-    <td>{{ transaction.type }}</td>
-    <td>{{ transaction.category }}</td>
-    <td>{{ transaction.date | date:'mediumDate' }}</td>
-    <td>
-      <button class="btn btn-sm btn-warning" ng-click="editTransaction(transaction)">Edit</button>
-      <button class="btn btn-sm btn-danger" ng-click="deleteTransaction(transaction._id)">Delete</button>
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
 </div>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93977f92b9f1ad9e',t:'MTc0NjE4ODY5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93af34fbac056777',t:'MTc0NjQzNzI5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>

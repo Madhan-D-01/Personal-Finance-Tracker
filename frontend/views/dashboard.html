@@ -7,7 +7,7 @@
       <div class="card dashboard-card text-center">
         <div class="card-body">
           <h5 class="card-title">Total Income</h5>
-          <p class="card-text income">{{ summary.income | number:2 }}</p>
+          <p class="card-text income">₹{{ summary.income | number:2 }}</p>
         </div>
       </div>
     </div>
@@ -15,7 +15,7 @@
       <div class="card dashboard-card text-center">
         <div class="card-body">
           <h5 class="card-title">Total Expenses</h5>
-          <p class="card-text expense">{{ summary.expenses | number:2 }}</p>
+          <p class="card-text expense">₹{{ summary.expenses | number:2 }}</p>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
       <div class="card dashboard-card text-center">
         <div class="card-body">
           <h5 class="card-title">Balance</h5>
-          <p class="card-text balance">{{ summary.balance | number:2 }}</p>
+          <p class="card-text balance">₹{{ summary.balance | number:2 }}</p>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
           <tr ng-repeat="transaction in transactions">
             <td>{{ transaction.date | date:'medium' }}</td>
             <td>{{ transaction.description }}</td>
-            <td>{{ transaction.amount | number:2 }}</td>
+            <td>₹{{ transaction.amount | number:2 }}</td>
             <td>{{ transaction.type }}</td>
           </tr>
           <tr ng-if="!transactions.length">
